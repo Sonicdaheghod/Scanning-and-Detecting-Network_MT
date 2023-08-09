@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+#get first octets of network
+ifconfig | grep "broadcast" | cut -d " " -f 10 | cut -d "." -f 1,2,3 | uniq > octets.txt
+
+#set a variable to represent value of octet.txt
+Octets=$(cat octets.txt)
+
+#Create new .txt
+echo "" > $Octets.txt
+
+#Loop
+for ip in {1..254}
+do
+	ping -c 1 $Octets.$ip | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" >> $Octets.txt &
+done
+
+#cat is used to read file in order and print standard output
+cat $Octets.txt
+
+#perform scan for local network
+nmap -sS --top-ports 20 -iL $Octets.txt
+
+
+exit
