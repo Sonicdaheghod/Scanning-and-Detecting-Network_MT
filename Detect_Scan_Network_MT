@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+#TUtorial: https://youtu.be/qhCxKrU1AEY
+
 
 #get first octets of network
 ifconfig | grep "broadcast" | cut -d " " -f 10 | cut -d "." -f 1,2,3 | uniq > octets.txt
@@ -19,7 +21,16 @@ done
 cat $Octets.txt
 
 #perform scan for local network
-nmap -sS --top-ports 20 -iL $Octets.txt
+nmap -sS -iL $Octets.txt
+
+## top-ports show the most common ports inr elation to our network
+
+## bash script to path
+
+#1 - $PATH
+#use usr/local/bin from $PATH
+# cd to the directory path
+# cat pingbash to see if all lines can be read by linux
 
 
 exit
